@@ -26,8 +26,6 @@ conn_string = (
 # Database connection settings
 db_engine = create_engine(conn_string, pool_pre_ping=True)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dba:ahi2023@20.121.120.91:3306/jess'
-
 @app.route('/')
 def index():
     query_patients = "SELECT * FROM patient"
