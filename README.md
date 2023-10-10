@@ -26,3 +26,50 @@
 5. Log into MySql by typing in ```sudo mysql```
 6. Create a new user: type into console ```create user '<name>'@'%' identified by '<password>```
 7. Confirm the user recently created: type into console ```select user from mysql.user;```
+
+# Rationale for Database Schema
+
+The database schema I created consists of three tables called patients, labs, and patient_lab. 
+
+1. Patients Table
+
+* patient_id: acts as a unique identifier for each patient, primary key, datatype: integer
+* first_name: contains information about the patient's first name, datatype: string
+* last_name: contains information about the patient's last name, datatype: string
+* date_of_birth: contains information about the patient's birthday, datatype: date
+* admitted_date: contains information about when the patient was admitted, datatype: date
+
+2. Labs Table
+
+* lab_id: acts as a unique identifier for each lab test, primary key, datatype: integer
+* lab_name: contains information about the name of the lab test ordered, datatype: string
+  
+3. Patient_lab Table
+
+* patient_lab_id: acts as a unique identifier for the lab for the patient, datatype: integer
+* patient_id: contains the unique identifier number assigned for the patient, foreign key
+* lab_id: contains the unique identifier number assigned for the lab test, foreign key
+
+# Errors / Troubleshooting
+
+I was unable to deploy my Flask application because I kept getting an error message that I attempted to resolve, but was unable to. 
+
+Below is the error message I got:
+![image](https://github.com/jesschannn/Flask_4_databases_mysql_vm./assets/123782059/5ba82d47-a25d-44a6-b2e1-d77e4a4bd772)
+
+```sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (1045, "Access denied for user 'None'@'34.139.138.85' (using password: YES)")```
+
+Reading the error, I interpreted the error as stating that a user named "None" with an IP address that did not match the IP address I put in my .env file did not have access to deploy the Flask app I had created. 
+
+Troubleshooting: 
+
+1. In the Google shell console, I navigated to the mysql console and typed in ```show databases;``` and ```select user from mysql.user``` to see if I had any other users or any other databases that should not have been there.
+2. In Azure, I double checked to see that the IP address of the VM I created was the same IP address I used in my .env file and in MySQL Workbench.
+3. In MySQL Workbench, I double checked to make sure all of the information I put was correct. I also tested the connection to make sure it was running correctly, which it was.
+4. I tried to run this code replacing "user", "password, "ip", "port", and "database" with my own information from the .env file, but I was still receiving the same error message.
+
+   ```app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://'user':'password'@'ip':'port'/'database''```
+   
+5. As per Professor William's suggestion, I removed the quotations in my .env file, but I was still getting the same error message.
+
+If my Flask application had run successfully, there would be a database with "fake" information populated in the three tables I had created.
